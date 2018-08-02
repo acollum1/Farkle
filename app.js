@@ -1,9 +1,4 @@
-let totalScore = 0;
-let userScore = 0;
-let playerCount = 0;
-let dice = [null, null, null, null, null, null];
-let choices = [false, false, false, false, false, false];
-const allDiceDiv = document.querySelector('.all-dice');
+const alldiceDiv = document.querySelector('.all-dice');
 const rollAllDiv = document.querySelector('.roll-all');
 const totalScoreSpan = document.getElementById('total-score');
 const userScoreSpan = document.getElementById('user-score');
@@ -22,63 +17,43 @@ const die4Img = document.getElementById('die4-img');
 const die5Img = document.getElementById('die5-img');
 const die6Img = document.getElementById('die6-img');
 
-// class Player {
-// 	constructor(name, score) {
-// 	this._name = name;
-// 	this._score = score;
-// 	this._wins = 0;
-// 	this._highestScore = 0;
-// 	this._bestRoll = []
-// 	}
-// }
+// Object to store score info and avoid global variable.
+let total = {
+	totalScore: 0,
+	userScore: 0
+}
 
-// function addPlayer () {
-// 	playerCount++;
-// 	const plP = document.createElement("SPAN");
-// 	const plN = document.createTextNode(`Player ${playerCount}`);
-// 	const scN = document.createTextNode(0);
-// 	const playerElement = document.getElementById("player");
-// 	plP.setAttribute("id", "SPAN");
-// 	plP.id = `player${playerCount}`;
-// 	plP.appendChild(plN);
-// 	playerElement.appendChild(plP);
-
-// 	const scP = document.createElement("SPAN");
-	
-// 	const scoreElement = document.getElementById("total-score");
-// 	scP.setAttribute("id", "SPAN");
-// 	scP.id = `player${playerCount}-score`;
-// 	scP.appendChild(scN);
-// 	scoreElement.appendChild(scP);
-
-// 	const player = new Player(`Player${playerCount}`, 0);
-// }
+// Object to store dice info and avoid global variable.
+let dice = {
+	value: [null, null, null, null, null],
+    choices: [false, false, false, false, false],
+	rollNum: 0
+}
 
 // Assigns a random number if dice is selected to roll.
 function roll () {
 	for (i=0; i<6; i++) {
 	let newNumber = 1 + Math.floor(Math.random()*6);
-	if (choices[i]) {
-		dice[i] = newNumber;
-		choices[i] = true;
+	if (dice.choices[i]) {
+		dice.value[i] = newNumber;
+		dice.choices[i] = true;
 	} else {
-		dice[i] = dice[i];
-		choices[i] = false;
+		dice.value[i] = dice.value[i];
+		dice.choices[i] = false;
 	}
 }
-	return dice[i];
+	return dice.value[i];
 }
 
-// Calculates points and displays images for rolled dice.
+// Calculates points and displays images for rolled dice.value.
 function rollDice() {
 	msgSpan.innerHTML = '...';
-	if (choices.some(x => x === false) || dice.every(x => x === null) || dice.every(x => typeof x === 'number')) {
+	if (dice.choices.some(x => x === false) || dice.value.every(x => x === null) || dice.value.every(x => typeof x === 'number')) {
 	buttonText.innerHTML = 'Roll Again';
-	roll();//dice = [3,3,3,4,5,2];
-	for (i=0; i<=dice.length; i++) {
-		if(Number.isInteger(dice[i])) turn(i, dice);
+	roll();//dice.value = [3,3,3,4,5,2];
+	for (i=0; i<=dice.value.length; i++) {
+		if(Number.isInteger(dice.value[i])) turn(i, dice.value);
 	}
-	console.log(dice);
 	points();
 }
 else {
@@ -113,26 +88,37 @@ function turn(diePos, num) {
 // Ends turn and adds Current Score to Total Score, if eligible.
 function bankPoints() {
 	msgSpan.innerHTML = "...";
-	if (totalScore === 0 && userScore < 500) {
+	if (total.totalScore === 0 && total.userScore < 500) {
 	msgSpan.innerHTML = 'Roll at least 500 points to get on the board';
 	}
 	else {
-	totalScore += userScore;
-	totalScoreSpan.innerHTML = totalScore;
-	msgSpan.innerHTML = `You banked ${userScore} points! Next turn...`
-	userScore = 0;
-	userScoreSpan.innerHTML = userScore;
+	total.totalScore += total.userScore;
+	totalScoreSpan.innerHTML = total.totalScore;
+	msgSpan.innerHTML = `You banked ${total.userScore} points! Next turn...`
+	total.userScore = 0;
+	userScoreSpan.innerHTML = total.userScore;
 	firstLoad();
 	}
-	if (totalScore >= 10000) {
+	if (total.totalScore >= 10000) {
 		msgSpan.innerHTML = 'CONGRATS!!! YOU WIN';
+		buttonText.innerHTML = 'New Game';
+		buttonText.addEventListener('click', newGame);
 	}
+}
+
+let newGame = function () {
+	firstLoad();
+	total.totalScore = 0;
+	total.userScore = 0;
+	totalScoreSpan.innerHTML = total.totalScore;
+	userScoreSpan.innerHTML = total.userScore;
+	buttonText.removeEventListener('click', newGame);
 }
 
 // Decides which dice to select after each roll based on original position.
 function selector (value, idx) {
 		console.log(idx);
-		if (dice[idx]){
+		if (dice.value[idx]){
 		switch(idx) {
 		case 0:
 		selectDie1();
@@ -169,10 +155,8 @@ function sort(arr) {
 
 // Checks sorted dice array for points and loops through original positions to run Selector.
 function points() {
-	console.log(choices);
 	let score = false;
-	console.log(dice);
-	const sorted_arr = sort(dice);
+	const sorted_arr = sort(dice.value);
 
 	for (i = 0; i < sorted_arr.length; i++) {
 	let pos = sorted_arr[i];
@@ -184,175 +168,159 @@ function points() {
 
 	//straight 1-6
 	if (pos2 === pos+1 && pos3 === pos+2 && pos4 === pos+3 && pos5 === pos+4 && pos6 === pos+5) {
-    	userScore += 1500;
+    	total.userScore += 1500;
     	score = true;
-    	msgSpan.innerHTML = "Straight! HOT DICE!!!";
+    	msgSpan.innerHTML = "Straight! HOT dice!!!";
     	firstLoad();
-    	console.log(userScore);
     	break;
     }
     //6 of a kind
 	else if (Number.isInteger(pos) && sorted_arr.every(x => x === pos)) {
-    	userScore += 3000;
+    	total.userScore += 3000;
     	score = true;
-    	msgSpan.innerHTML = "6 of a kind! HOT DICE!!!";
+    	msgSpan.innerHTML = "6 of a kind! HOT dice!!!";
  		firstLoad();
-    	console.log(userScore);
     	break;
 	}
 	//Two Triplets
 	else if (Number.isInteger(pos) && i===0 && pos3 === pos && pos2 === pos && pos6 === pos4 && pos5 === pos4) {
-    	userScore += 2500;
+    	total.userScore += 2500;
     	score = true;
-		msgSpan.innerHTML = "Two Triplets! HOT DICE!!!";
+		msgSpan.innerHTML = "Two Triplets! HOT dice!!!";
  		firstLoad();
-    	console.log(userScore);
     	break;
 	}
 	//Three Pairs
 	else if (Number.isInteger(pos) && i===0 && pos === pos2 && pos3 === pos4 && pos5 === pos6) {
-    	userScore += 1500;
+    	total.userScore += 1500;
     	score = true;
-		msgSpan.innerHTML = "Three Pairs! HOT DICE!!!";
+		msgSpan.innerHTML = "Three Pairs! HOT dice!!!";
  		firstLoad();
-    	console.log(userScore);
     	break;
 	}
 	//5 of a kind
 	else if (Number.isInteger(pos) && pos!=1 && pos!=5 && pos2 === pos && pos3 === pos && pos4 === pos && pos5 === pos) {
-    	userScore += 1000;
+    	total.userScore += 1000;
     	score = true;
     	rule = 2000;
-    	for (t=0;t<dice.length;t++) {
-  		if (dice[t] === pos) {
-  			dice[t] = '2000';
+    	for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === pos) {
+  			dice.value[t] = '2000';
     		selector(pos, t);
 			}
   		}
-    	console.log(userScore);
     }
 	//4 of a kind
 	else if (Number.isInteger(pos) && pos!=1 && pos!=5 && pos2 === pos && pos3 === pos && pos4 === pos) {
-    	userScore += 1000 - (pos*100);
+    	total.userScore += 1000 - (pos*100);
     	score = true;
     	rule = 1000;
-    	for (t=0;t<dice.length;t++) {
-  		if (dice[t] === pos) {
-  			dice[t] = '1000';
+    	for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === pos) {
+  			dice.value[t] = '1000';
     		selector(pos, t);
 			}
   		}
-    	console.log(userScore);
 	}
 	//3 of a kind
 	else if (Number.isInteger(pos) && pos!=1 && pos!=5 && pos2 === pos && pos3 === pos) {
-    	userScore += pos*100;
+    	total.userScore += pos*100;
     	score = true;
     	rule = 3;
-		for (t=0;t<dice.length;t++) {
-  		if (choices[t] && dice[t] === pos) {
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.choices[t] && dice.value[t] === pos) {
     		selector(pos, t);
-    		dice[t] = pos.toString();
+    		dice.value[t] = pos.toString();
     	}
   	}
-    	console.log(userScore);
 	}
 	//5 x 5s
 	else if (Number.isInteger(pos) && pos === 5 && pos2 === 5 && pos3 === 5 && pos4 === 5 && pos5 === 5) {
-    	userScore += 1000;
+    	total.userScore += 1000;
     	score = true;
     	rule = 2000;
-    	for (t=0;t<dice.length;t++) {
-  		if (dice[t] === 5) {
-  			dice[t] = '2000';
+    	for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === 5) {
+  			dice.value[t] = '2000';
     		selector(pos, t);
 			}
   		}
-    	console.log(userScore);
     }
 	//4 x 5s
 	else if (Number.isInteger(pos) && pos === 5 && pos2 === 5 && pos3 === 5 && pos4 === 5) {
-    	userScore += 500;
+    	total.userScore += 500;
     	score = true;
     	rule = 1000;
-    	for (t=0;t<dice.length;t++) {
-  		if (dice[t] === 5) {
-  			dice[t] = '1000';
+    	for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === 5) {
+  			dice.value[t] = '1000';
     		selector(pos, t);
 			}
   		}
-    	console.log(userScore);
 	}
    	//3 x 5s
 	else if (Number.isInteger(pos) && pos === 5 && pos2 === 5 && pos3 === 5) {
-    	userScore += 400;
+    	total.userScore += 400;
     	score = true;
     	rule = 3;
-    	for (t=0;t<dice.length;t++) {
-  		if (dice[t] === 5) {
-  			dice[t] = '500';
+    	for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === 5) {
+  			dice.value[t] = '500';
     		selector(pos, t);
 			}
   		}
-    	console.log(userScore);
     }
    	//5 x 1s
 	else if (Number.isInteger(pos) && pos === 1 && pos2 === 1 && pos3 === 1 && pos4 === 1 && pos5 === 1) {
-    	userScore += 1000;
+    	total.userScore += 1000;
     	score = true;
   		rule = 2000;
-    	for (t=0;t<dice.length;t++) {
-  		if (dice[t] === 1) {
-  			dice[t] = '2000';
+    	for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === 1) {
+  			dice.value[t] = '2000';
     		selector(pos, t);
 			}
   		}
-    	console.log(userScore);
     }
 	//4 x 1s
 	else if (Number.isInteger(pos) && pos === 1 && pos2 === 1 && pos3 === 1 && pos4 === 1) {
-    	userScore += 700;
+    	total.userScore += 700;
     	score = true;
     	rule = 1000;
-    	for (t=0;t<dice.length;t++) {
-  		if (dice[t] === 1) {
-  			dice[t] = '1000';
+    	for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === 1) {
+  			dice.value[t] = '1000';
     		selector(pos, t);
 			}
   		}
-    	console.log(userScore);
 	}
 	//1s
     else if (Number.isInteger(pos) && pos === 1) {
-    	userScore += 100;
+    	total.userScore += 100;
     	score = true;
     	rule = 1;
-    	for (t=0;t<dice.length;t++) {
-				if (dice[t] === 1) {
+    	for (t=0;t<dice.value.length;t++) {
+				if (dice.value[t] === 1) {
 				selector(pos, t);
-				dice[t] = pos.toString();
+				dice.value[t] = pos.toString();
 			}
   		}
-    	console.log(userScore);
-    	console.log(pos);
     }
     //5s
     else if (Number.isInteger(pos) && pos === 5) {
-    	userScore += 50;
+    	total.userScore += 50;
     	score = true;
     	rule = 5;
-    	for (t=0;t<dice.length;t++) {
-				if (dice[t] === 5) {
+    	for (t=0;t<dice.value.length;t++) {
+				if (dice.value[t] === 5) {
 				selector(pos, t);
-				dice[t] = pos.toString();
+				dice.value[t] = pos.toString();
 			}
   		}
-    	console.log(userScore);
-    	console.log(pos);
     }
 	// Eligible for new roll
-	if (dice.every(x => typeof x === 'string')) {
-		msgSpan.innerHTML = "HOT DICE!!! Roll again?";
+	if (dice.value.every(x => typeof x === 'string')) {
+		msgSpan.innerHTML = "HOT dice!!! Roll again?";
 		selectAllDice();
 	}
 }
@@ -362,120 +330,113 @@ function points() {
 }
 	// Displays points
 	else {
-		console.log(sorted_arr);
-		console.log(dice);
-		userScoreSpan.innerHTML = userScore;		
+		userScoreSpan.innerHTML = total.userScore;		
 	}
 }
 
 // Adjusts Current Score when user selects/deselects dice.
 function adjustPoints (val, num) {
-	console.log(val);
-	if (choices[num] && val==='2000') {
-		userScore -= 2000;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === '2000') {
+
+	if (dice.choices[num] && val==='2000') {
+		total.userScore -= 2000;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === '2000') {
     		multiDice(t);
 			}
   		}
-  		choices[num] = false;
+  		dice.choices[num] = false;
 		}
-		else if (!choices[num] && val==='2000') {
-		userScore += 2000;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === '2000') {
+		else if (!dice.choices[num] && val==='2000') {
+		total.userScore += 2000;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === '2000') {
     		multiDice(t);
 			}
   		}
-  		choices[num] = true;
+  		dice.choices[num] = true;
 		}
-		else if (choices[num] && val==='1000') {
-		userScore -= 1000;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === '1000') {
+		else if (dice.choices[num] && val==='1000') {
+		total.userScore -= 1000;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === '1000') {
     		multiDice(t);
 			}
   		}
-  		choices[num] = false;
+  		dice.choices[num] = false;
 		}
-		else if (!choices[num] && val==='1000') {
-		userScore += 1000;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === '1000') {
+		else if (!dice.choices[num] && val==='1000') {
+		total.userScore += 1000;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === '1000') {
     		multiDice(t);
 			}
   		}
-  		choices[num] = true;
+  		dice.choices[num] = true;
 		}
-		else if (choices[num] && val==='500') {
-		userScore -= 500;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === '500') {
+		else if (dice.choices[num] && val==='500') {
+		total.userScore -= 500;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === '500') {
     		multiDice(t);
 			}
   		}
-  		choices[num] = false;
+  		dice.choices[num] = false;
 		}
-		else if (!choices[num] && val==='500') {
-		userScore += 500;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === '500') {
+		else if (!dice.choices[num] && val==='500') {
+		total.userScore += 500;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === '500') {
     		multiDice(t);
 			}
   		}
-  		choices[num] = true;
+  		dice.choices[num] = true;
 		}
-		else if (choices[num] && val==='1') {
-		userScore -= 100;
-		userScoreSpan.innerHTML = userScore;
-		choices[num] = false;
+		else if (dice.choices[num] && val==='1') {
+		total.userScore -= 100;
+		userScoreSpan.innerHTML = total.userScore;
+		dice.choices[num] = false;
 		}
-		else if (!choices[num] && val==='1') {
-		userScore += 100;
-		userScoreSpan.innerHTML = userScore;
-		choices[num] = true;
+		else if (!dice.choices[num] && val==='1') {
+		total.userScore += 100;
+		userScoreSpan.innerHTML = total.userScore;
+		dice.choices[num] = true;
 		}
-		else if (choices[num] && val==='5') {
-		userScore -= 50;
-		userScoreSpan.innerHTML = userScore;
-		choices[num] = false;
+		else if (dice.choices[num] && val==='5') {
+		total.userScore -= 50;
+		userScoreSpan.innerHTML = total.userScore;
+		dice.choices[num] = false;
 		}
-		else if (!choices[num] && val==='5') {
-		userScore += 50;
-		userScoreSpan.innerHTML = userScore;
-		choices[num] = true;
+		else if (!dice.choices[num] && val==='5') {
+		total.userScore += 50;
+		userScoreSpan.innerHTML = total.userScore;
+		dice.choices[num] = true;
 		}
-		else if (choices[num] && typeof val!='number') {
-		userScore -= parseFloat(val)*100;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === val) {
+		else if (dice.choices[num] && typeof val!='number') {
+		total.userScore -= parseFloat(val)*100;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === val) {
     		multiDice(t);
 			}
-			console.log(val);
-			console.log(dice[t]);
   		}
-  		choices[num] = false;
+  		dice.choices[num] = false;
 		}
-		else if (!choices[num] && typeof val!='number') {
-		userScore += parseFloat(val)*100;
-		userScoreSpan.innerHTML = userScore;
-		for (t=0;t<dice.length;t++) {
-  		if (dice[t] === val) {
+		else if (!dice.choices[num] && typeof val!='number') {
+		total.userScore += parseFloat(val)*100;
+		userScoreSpan.innerHTML = total.userScore;
+		for (t=0;t<dice.value.length;t++) {
+  		if (dice.value[t] === val) {
     		multiDice(t);
 			}
-			console.log(val);
-			console.log(dice[t]);
   		}
-  		choices[num] = true;
+  		dice.choices[num] = true;
 		}
-		console.log(val);
 	}
 
 // Duplicated Selector function to avoid infinite loop.
@@ -505,8 +466,8 @@ function adjustPoints (val, num) {
 // Ends turn and resets score to 0.
 function farkle () {
 	   	msgSpan.innerHTML = 'You Farkled...';
-		userScore = 0;
-		userScoreSpan.innerHTML = userScore;
+		total.userScore = 0;
+		userScoreSpan.innerHTML = total.userScore;
 		firstLoad();
 }
 
@@ -514,18 +475,18 @@ function farkle () {
 function selectDie1() {
 	let userChoice_div = document.getElementById('die1-img');
 
-	if (!choices[0] || !dice[0]) {
+	if (!dice.choices[0] || !dice.value[0]) {
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.remove('red-glow');
 		userChoice_div.classList.add('green-glow');
-		choices[0] = true;
+		dice.choices[0] = true;
 		return true;
 	}
 	else {
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.add('red-glow');
-		choices[0] = false;
+		dice.choices[0] = false;
 		return false;
 	}
 }		
@@ -533,16 +494,16 @@ function selectDie1() {
 function selectDie2() {
 	let userChoice_div = document.getElementById('die2-img');
 
-	if (!choices[1] || !dice[1]) {
+	if (!dice.choices[1] || !dice.value[1]) {
 		userChoice_div.classList.remove('red-glow');
 		userChoice_div.classList.add('green-glow');
-		choices[1] = true;
+		dice.choices[1] = true;
 		return true;
 	}
 	else {
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.add('red-glow');
-		choices[1] = false;
+		dice.choices[1] = false;
 		return false;
 	}
 }	
@@ -550,16 +511,16 @@ function selectDie2() {
 function selectDie3() {
 	let userChoice_div = document.getElementById('die3-img');
 
-	if (!choices[2] || !dice[2]) {
+	if (!dice.choices[2] || !dice.value[2]) {
 		userChoice_div.classList.remove('red-glow');
 		userChoice_div.classList.add('green-glow');
-		choices[2] = true;
+		dice.choices[2] = true;
 		return true;
 	}
 	else {
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.add('red-glow');
-		choices[2] = false;
+		dice.choices[2] = false;
 		return false;
 	}
 }				
@@ -567,16 +528,16 @@ function selectDie3() {
 function selectDie4() {
 	let userChoice_div = document.getElementById('die4-img');
 
-	if (!choices[3] || !dice[3]) {
+	if (!dice.choices[3] || !dice.value[3]) {
 		userChoice_div.classList.remove('red-glow');
 		userChoice_div.classList.add('green-glow');
-		choices[3] = true;
+		dice.choices[3] = true;
 		return true;
 	}
 	else {
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.add('red-glow');
-		choices[3] = false;
+		dice.choices[3] = false;
 		return false;
 	}
 }	
@@ -584,16 +545,16 @@ function selectDie4() {
 function selectDie5() {
 	let userChoice_div = document.getElementById('die5-img');
 
-	if (!choices[4] || !dice[4]) {
+	if (!dice.choices[4] || !dice.value[4]) {
 		userChoice_div.classList.remove('red-glow');
 		userChoice_div.classList.add('green-glow');
-		choices[4] = true;
+		dice.choices[4] = true;
 		return true;
 	}
 	else {
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.add('red-glow');
-		choices[4] = false;
+		dice.choices[4] = false;
 		return false;
 	}
 }		
@@ -601,46 +562,46 @@ function selectDie5() {
 function selectDie6() {
 	let userChoice_div = document.getElementById('die6-img');
 
-	if (!choices[5] || !dice[5]) {
+	if (!dice.choices[5] || !dice.value[5]) {
 		userChoice_div.classList.remove('red-glow');
 		userChoice_div.classList.add('green-glow');
-		choices[5] = true;
+		dice.choices[5] = true;
 		return true;
 	}
 	else {
 		userChoice_div.classList.remove('green-glow');
 		userChoice_div.classList.add('red-glow');
-		choices[5] = false;
+		dice.choices[5] = false;
 		return false;
 	}
 }
 
 // Changes all variables back to default and runs animation.
 function firstLoad() {
-buttonText.innerHTML = 'Roll Dice';
-dice = [null, null, null, null, null, null];
-choices[0]=false;
+buttonText.innerHTML = 'Roll dice';
+dice.value = [null, null, null, null, null, null];
+dice.choices[0]=false;
 selectDie1();
 document.getElementById('die1-img').classList.remove('red-glow')
-choices[1]=false;
+dice.choices[1]=false;
 selectDie2();
 document.getElementById('die2-img').classList.remove('red-glow')
-choices[2]=false;
+dice.choices[2]=false;
 selectDie3();
 document.getElementById('die3-img').classList.remove('red-glow')
-choices[3]=false;
+dice.choices[3]=false;
 selectDie4();
 document.getElementById('die4-img').classList.remove('red-glow')
-choices[4]=false;
+dice.choices[4]=false;
 selectDie5();
 document.getElementById('die5-img').classList.remove('red-glow')
-choices[5]=false;
+dice.choices[5]=false;
 selectDie6();
 document.getElementById('die6-img').classList.remove('red-glow')
 }
 
 function selectAllDice () {
-	dice = [null, null, null, null, null, null];
+	dice.value = [null, null, null, null, null, null];
 	selectDie1();
 	selectDie2();
 	selectDie3();
@@ -661,31 +622,31 @@ function showRules () {
 
 // Event Handlers for user interaction.
 die1Span.addEventListener('click', function() {
-	selector(dice[0], 0);
+	selector(dice.value[0], 0);
 	selectDie1();
 })
 
 die2Span.addEventListener('click', function() {
-	selector(dice[1], 1);
+	selector(dice.value[1], 1);
 	selectDie2();
 })
 
 die3Span.addEventListener('click', function() {
-	selector(dice[2], 2);
+	selector(dice.value[2], 2);
 	selectDie3();
 })
 
 die4Span.addEventListener('click', function() {
-	selector(dice[3], 3);
+	selector(dice.value[3], 3);
 	selectDie4();
 })
 
 die5Span.addEventListener('click', function() {
-	selector(dice[4], 4);
+	selector(dice.value[4], 4);
 	selectDie5();
 })
 
 die6Span.addEventListener('click', function() {
-	selector(dice[5], 5);
+	selector(dice.value[5], 5);
 	selectDie6();
 })
