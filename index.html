@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<title>Farkle</title>
+	<header>Let's play Farkle!</header>
+</head>
+<body>
+	<div id="rules">
+		<ul>
+			<li>Rules of Farkle Gameplay:</li>
+			<li>- At the beginning of each turn, the player throws all the dice at once.</li>
+			<li>- After each throw, one or more scoring dice must be set aside.</li>
+			<li>- The player may then either end their turn and bank the score accumulated so far, or continue to throw the remaining dice.</li>
+			<li>- If the player has scored all six dice, they have "hot dice" and may continue their turn with a new throw of all six dice, adding to the score they have already accumulated. There is no limit to the number of "hot dice" a player may roll in one turn.</li>
+			<li>- If none of the dice score in any given throw, the player has "farkled", their turn ends and all points for that turn are lost.</li>
+			<li>- 500 points to get on the board, 10,000 to win.</li>
+		</ul>
+		<p><button id="show-rules" onclick="showRules()">Hide Rules</button></p>
+	</div>
+	<div class='guide'>
+		<div class='alnL'>
+		<img id='one5' class='imgL' src="die5.svg"><p id='one5'> = 50</p><img id='one1' class='imgR' src="die1.svg"><p id='one1'> = 100</p>
+		<span><img src="die1.svg"><img src="die1.svg"><img src="die1.svg"></span><span class='pts'> = 300</span>
+		<span><img src="die2.svg"><img src="die2.svg"><img src="die2.svg"></span><span class='pts'> = 200</span>
+		<span><img src="die3.svg"><img src="die3.svg"><img src="die3.svg"></span><span class='pts'> = 300</span>
+		<span><img src="die4.svg"><img src="die4.svg"><img src="die4.svg"></span><span class='pts'> = 400</span>
+		<span><img src="die5.svg"><img src="die5.svg"><img src="die5.svg"></span><span class='pts'> = 500</span>
+		<span><img id='die-six' src="die6.svg"><img id='die-six' src="die6.svg"><img id='die-six' src="die6.svg"></span><span class='pts'> = 600</span>
+		</div>
+			<ul class='alnR'>
+				<li>4 of a kind = 1,000</li>
+				<li>5 of a kind = 2,000</li>
+				<li>6 of a kind = 3,000</li>
+				<li>Three Pairs = 1,500</li>
+				<li>Four + Pair = 1,500</li>
+				<li>Two Triplets = 2,500</li>
+				<li>1-6 Straight = 1,500</li>
+			</ul>
+	</div>
+
+	<div class='score-board'>
+			<div id="user-label" class="badge">Total Score</div>
+			<span id="total-score">0</span>
+	<p><button id="show-rules" onclick="showRules()">Show Rules</button></p>
+	</div>
+
+	<div class='msg'>
+		<p id='current-label'>Current Score: </p><p id='user-score'>0</p>
+		<p><button id="end-turn" onclick="bankPoints()">Bank Points</button></p>
+		<div id='message'>...</div>
+	</div>
+<div class='roll-dice'>
+		<button id='button' onclick='rollDice()'>Roll Dice</button>
+	</div>
+	<div class='all-dice'>
+		<span id='die1'><img class='die' id='die1-img' src='die1.svg'></span>
+		<span id='die2'><img class='die' id='die2-img' src='die2.svg'></span>
+		<span id='die3'><img class='die' id='die3-img' src='die3.svg'></span>
+		<span id='die4'><img class='die' id='die4-img' src='die4.svg'></span>
+		<span id='die5'><img class='die' id='die5-img' src='die5.svg'></span>
+		<span id='die6'><img class='die' id='die6-img' src='die6.svg'></span>
+	</div>
+	
+	<body onload="firstLoad()">
+	<script type="text/javascript" src="app.js"></script>
+</body>
+</html>

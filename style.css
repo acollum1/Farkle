@@ -1,0 +1,345 @@
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon|Kirang+Haerang');
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	color: white;
+}
+
+body {
+	background-image: url("dice table.jpg");
+	background-size: cover; 
+	background-attachment: fixed; 
+	background-repeat: no-repeat;
+}
+
+img {
+	
+}
+
+header {
+	margin: auto auto;
+	text-align: center;
+	font-size: 4em;
+	font-family: 'Kirang Haerang', cursive;
+	-webkit-text-stroke: 2px black;
+	text-shadow: #fff 0px 1px 1px;
+	text-rendering: optimizeLegibility !important;
+	-webkit-font-smoothing: antialiased !important;
+}
+
+ul {
+  list-style-type: none;
+}	
+
+.guide {
+	font-size: 2em;
+	font-family: 'Do Hyeon', sans-serif;
+	margin-bottom: 0.5em;
+}
+
+.guide p {
+	font-size: 1.1em;
+	font-family: 'Do Hyeon', sans-serif;
+	margin-bottom: 0.25em;
+}
+
+.alnL > span img {
+	display: inline-block;
+	width: 1.8em;
+	height: auto;
+	margin-right: .25em;
+	margin-bottom: 1em;
+}
+
+.alnL > span {
+	display: block;
+}
+
+.pts {
+	position: relative;
+	display: inline-block;
+	margin-top: -2.1em;
+	margin-left: 7em;
+	font-size: 1em;
+}
+
+.alnL {
+	display: block;
+	font-size: .65em;
+	float: left;
+	text-align: left;
+	padding: 1% 5% .75% 2%;
+	margin-top: -1%;
+	margin-bottom: auto;
+	margin-left: 3%;
+	margin-right: auto;
+	border: .05em solid black;
+	border-radius: 3%;
+	background: rgba(54, 25, 25, .5);
+	position: relative;
+}
+
+#one5 {
+	display: inline-block;
+	text-align: left;
+}
+
+.imgL {
+	display: inline-block;
+	text-align: left;
+	width: 1.75em;
+	height: auto;
+	margin-right: .5em;
+}
+
+#one1 {
+	display: inline-block;
+	text-align: right;
+	margin-left: 1em;
+	margin-right: auto;
+}
+
+.imgR {
+	display: inline-block;
+	text-align: right;
+	width: 1.75em;
+	height: auto;
+	margin-right: auto;
+	margin-left: 2em;
+}
+
+.alnR li {
+	display: block;
+	margin-bottom: 4%;
+}
+
+.alnR {
+	display: block;
+	text-align: right;
+	float: right;
+	margin-top: -1%;
+	margin-right: 3%;
+	margin-left: auto;
+	margin-bottom: auto;
+	font-size: .9em;
+	padding: 1% 1.5% 2% 3%;
+	border: .05em solid black;
+	border-radius: 3%;
+	background: rgba(54, 25, 25, .5);
+	position: relative;
+}
+
+.die:hover {
+	cursor: pointer;
+}
+
+.die {
+	position: relative;
+	margin: auto auto;
+	transition: all 0.3s ease;
+}
+
+.all-dice {
+	position: relative;
+	display: inline-block;
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.all-dice img {
+	position: relative;
+	margin: 1em auto;
+    width: 15%;
+    height: auto;
+    text-align: center;
+}
+
+.score-board {
+	margin: auto;
+	border: .05em solid black;
+	border-radius: 2%;
+	box-shadow: 0 0 7px #36454f;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	height: auto;
+	width: 25%;
+	background: rgba(88,88,88, .85);
+	color: black;
+	font-size: 3em;
+	padding-top: 1%;
+	padding-left: 5%;
+	padding-right: 5%;
+	font-family: 'Do Hyeon', sans-serif;
+	position: relative;
+}
+
+.score-board > span {
+	width: auto;
+	font-size: 1em;
+	-webkit-text-stroke: 1.5px black;
+	position: relative;
+}
+
+#add-player {
+	color: black;
+	padding: 1% 2%;
+}
+
+#player {
+	display: inline;
+}
+
+.setup {
+	display: inline;
+	text-align: center;
+	width: 15%;
+}
+
+.badge {
+	margin: 1%;
+	background: red;
+	font-size: 0.3em;
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+#user-label {
+	border: .1em solid black;
+	width: auto;
+	height: auto;
+}
+
+.msg > p {
+	height: auto;
+	width: 40%;
+	margin: 1% auto;
+	font-size: 1.25em;
+	font-family: 'Do Hyeon', sans-serif;
+	text-align: center;
+	position: relative;
+}
+
+#user-score {
+	margin-left: auto;
+	margin-right: auto;
+	width: 25%;
+	height: auto;
+}
+
+
+#rules {
+	display: none;
+	background: gray;
+	border: 1px solid white;
+	border-radius: .25em;
+	width: 50%;
+	height: auto;
+	margin-left: 25%;
+	margin-right: auto;
+	padding: .75%;
+	text-align: center;
+	z-index: 1;
+	position: absolute;
+}
+
+#rules ul li {
+	margin-bottom: 2%
+}
+
+#show-rules {
+	background: silver;
+	color: black;
+	margin: auto;
+	padding: auto;
+}
+
+#message {
+	display: block;
+	width: 40%;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 4%;
+	margin-bottom: 3%;
+	font-size: 1.5em;
+	font-family: 'Do Hyeon', sans-serif;
+}
+
+.roll-dice {
+	text-align: center;
+	font-size: 1em;
+}
+
+#button {
+	position: relative;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	margin-bottom: auto;
+	background: red;
+	width: 20%;
+	font-size: 2em;
+	border: .05em solid black;
+	border-radius: 4px;
+	box-shadow: 
+  		0 1px 2px #000,
+  		0 -1px 1px #666,
+  		inset 0 -1px 1px rgba(0,0,0,0.5),
+  		inset 0 1px 1px rgba(192,192,192,0.8);
+}
+
+#button:hover {
+	cursor: pointer;
+}
+
+#button:active {
+	position: relative;
+	top: 2px;
+	background: green;
+}
+#end-turn {
+	width: 35%;
+	height: auto;
+	text-align: center;
+	background: silver;
+	margin-bottom: auto;
+	color: black;
+	font-size: 1em;
+	border: 1px solid black;
+	border-radius: 4px;
+	box-shadow: 
+  		0 1px 2px #000,
+  		0 -1px 1px #666,
+  		inset 0 -1px 1px rgba(0,0,0,0.5),
+  		inset 0 1px 1px rgba(192,192,192,0.8);
+}
+
+#end-turn:hover {
+	cursor: pointer;
+}
+
+#end-turn:active {
+	position: relative;
+	top: 2px;
+}
+
+.green-glow {
+	border: .1em solid #00ff00;
+	border-radius: 10%;
+	box-shadow: 0 0 .3em #31b43a;
+}
+
+.red-glow {
+	border: .3em solid #fc121b;
+	border-radius: 20%;
+}
+
+.gray-glow {
+	border: 1px solid #464647;
+	border-radius: 2.5em;
+	box-shadow: 0 0 10px #25292b;
+}
