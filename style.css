@@ -14,10 +14,6 @@ body {
 	background-repeat: no-repeat;
 }
 
-img {
-	
-}
-
 header {
 	margin: auto auto;
 	text-align: center;
@@ -151,8 +147,9 @@ ul {
 
 .all-dice img {
 	position: relative;
-	margin: 1em auto;
-    width: 15%;
+	margin-top: 1em;
+	margin-bottom: 2em;
+    width: 10%;
     height: auto;
     text-align: center;
 }
@@ -330,16 +327,16 @@ ul {
 .green-glow {
 	border: .1em solid #00ff00;
 	border-radius: 10%;
-	box-shadow: 0 0 .3em #31b43a;
+	box-shadow: 0 0 1em #31b43a;
+	position: relative;
 }
 
 .red-glow {
 	border: .3em solid #fc121b;
 	border-radius: 20%;
-}
-
-.gray-glow {
-	border: 1px solid #464647;
-	border-radius: 2.5em;
-	box-shadow: 0 0 10px #25292b;
+	box-shadow: 0 0 1em #FF0000;
+	position: relative;
+	top: .5em;
+	width: 10em;
+	height: auto;
 }

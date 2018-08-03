@@ -50,7 +50,7 @@ function rollDice() {
 	msgSpan.innerHTML = '...';
 	if (dice.choices.some(x => x === false) || dice.value.every(x => x === null) || dice.value.every(x => typeof x === 'number')) {
 	buttonText.innerHTML = 'Roll Again';
-	roll();//dice.value = [3,3,3,4,5,2];
+	roll();//dice.value = [3,3,3,3,3,3];//
 	for (i=0; i<=dice.value.length; i++) {
 		if(Number.isInteger(dice.value[i])) turn(i, dice.value);
 	}
@@ -171,7 +171,8 @@ function points() {
     	total.userScore += 1500;
     	score = true;
     	msgSpan.innerHTML = "Straight! HOT dice!!!";
-    	firstLoad();
+    	selectAllDice();
+    	setTimeout(firstLoad, 500);
     	break;
     }
     //6 of a kind
@@ -179,7 +180,8 @@ function points() {
     	total.userScore += 3000;
     	score = true;
     	msgSpan.innerHTML = "6 of a kind! HOT dice!!!";
- 		firstLoad();
+    	selectAllDice();
+ 		setTimeout(firstLoad, 500);
     	break;
 	}
 	//Two Triplets
@@ -187,7 +189,8 @@ function points() {
     	total.userScore += 2500;
     	score = true;
 		msgSpan.innerHTML = "Two Triplets! HOT dice!!!";
- 		firstLoad();
+		selectAllDice();
+ 		setTimeout(firstLoad, 500);
     	break;
 	}
 	//Three Pairs
@@ -195,7 +198,8 @@ function points() {
     	total.userScore += 1500;
     	score = true;
 		msgSpan.innerHTML = "Three Pairs! HOT dice!!!";
- 		firstLoad();
+		selectAllDice();
+ 		setTimeout(firstLoad, 500);
     	break;
 	}
 	//5 of a kind
@@ -321,7 +325,7 @@ function points() {
 	// Eligible for new roll
 	if (dice.value.every(x => typeof x === 'string')) {
 		msgSpan.innerHTML = "HOT dice!!! Roll again?";
-		selectAllDice();
+		setTimeout(firstLoad, 500);
 	}
 }
 	// Losing function
@@ -582,26 +586,26 @@ buttonText.innerHTML = 'Roll dice';
 dice.value = [null, null, null, null, null, null];
 dice.choices[0]=false;
 selectDie1();
-document.getElementById('die1-img').classList.remove('red-glow')
+document.getElementById('die1-img').classList.remove('red-glow');
+document.getElementById('die1-img').classList.add('big');
 dice.choices[1]=false;
 selectDie2();
-document.getElementById('die2-img').classList.remove('red-glow')
+document.getElementById('die2-img').classList.remove('red-glow');
 dice.choices[2]=false;
 selectDie3();
-document.getElementById('die3-img').classList.remove('red-glow')
+document.getElementById('die3-img').classList.remove('red-glow');
 dice.choices[3]=false;
 selectDie4();
-document.getElementById('die4-img').classList.remove('red-glow')
+document.getElementById('die4-img').classList.remove('red-glow');
 dice.choices[4]=false;
 selectDie5();
-document.getElementById('die5-img').classList.remove('red-glow')
+document.getElementById('die5-img').classList.remove('red-glow');
 dice.choices[5]=false;
 selectDie6();
-document.getElementById('die6-img').classList.remove('red-glow')
+document.getElementById('die6-img').classList.remove('red-glow');
 }
 
 function selectAllDice () {
-	dice.value = [null, null, null, null, null, null];
 	selectDie1();
 	selectDie2();
 	selectDie3();
