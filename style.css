@@ -142,6 +142,7 @@ ul {
 	display: inline-block;
     width: 100%;
     height: auto;
+    padding-top: 2%;
     text-align: center;
 }
 
@@ -243,7 +244,7 @@ ul {
 }
 
 #rules ul li {
-	margin-bottom: 2%
+	
 }
 
 #show-rules {
@@ -325,18 +326,27 @@ ul {
 }
 
 .green-glow {
-	border: .1em solid #00ff00;
-	border-radius: 10%;
+	border: .2em solid #00ff00;
+	border-radius: 20%;
 	box-shadow: 0 0 1em #31b43a;
 	position: relative;
+	bottom: 1em;
+	width: 10em;
+	height: auto;
 }
 
 .red-glow {
-	border: .3em solid #fc121b;
+	border: .2em solid #fc121b;
 	border-radius: 20%;
 	box-shadow: 0 0 1em #FF0000;
 	position: relative;
-	top: .5em;
+	bottom: 1em;
 	width: 10em;
 	height: auto;
+}
+
+.active {
+	border: .1em solid #fc121b;
+	border-radius: 20%;
+	box-shadow: 0 0 1em #FF0000;
 }

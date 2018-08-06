@@ -47,7 +47,7 @@ function roll () {
 
 // Calculates points and displays images for rolled dice.value.
 function rollDice() {
-	msgSpan.innerHTML = '...';
+	msgSpan.innerHTML = 'Green dice are selected to keep...';
 	if (dice.choices.some(x => x === false) || dice.value.every(x => x === null) || dice.value.every(x => typeof x === 'number')) {
 	buttonText.innerHTML = 'Roll Again';
 	roll();//dice.value = [3,3,3,3,3,3];//
@@ -57,7 +57,7 @@ function rollDice() {
 	points();
 }
 else {
-	msgSpan.innerHTML = 'Select at least 1 dice...';
+	msgSpan.innerHTML = 'You must keep at least 1 dice to roll again';
 	}
 }
 
@@ -481,15 +481,11 @@ function selectDie1() {
 
 	if (!dice.choices[0] || !dice.value[0]) {
 		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.remove('red-glow');
-		userChoice_div.classList.add('green-glow');
 		dice.choices[0] = true;
 		return true;
 	}
 	else {
-		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.add('red-glow');
+		userChoice_div.classList.add('green-glow');
 		dice.choices[0] = false;
 		return false;
 	}
@@ -499,14 +495,12 @@ function selectDie2() {
 	let userChoice_div = document.getElementById('die2-img');
 
 	if (!dice.choices[1] || !dice.value[1]) {
-		userChoice_div.classList.remove('red-glow');
-		userChoice_div.classList.add('green-glow');
+		userChoice_div.classList.remove('green-glow');
 		dice.choices[1] = true;
 		return true;
 	}
 	else {
-		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.add('red-glow');
+		userChoice_div.classList.add('green-glow');
 		dice.choices[1] = false;
 		return false;
 	}
@@ -516,14 +510,12 @@ function selectDie3() {
 	let userChoice_div = document.getElementById('die3-img');
 
 	if (!dice.choices[2] || !dice.value[2]) {
-		userChoice_div.classList.remove('red-glow');
-		userChoice_div.classList.add('green-glow');
+		userChoice_div.classList.remove('green-glow');
 		dice.choices[2] = true;
 		return true;
 	}
 	else {
-		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.add('red-glow');
+		userChoice_div.classList.add('green-glow');
 		dice.choices[2] = false;
 		return false;
 	}
@@ -533,14 +525,12 @@ function selectDie4() {
 	let userChoice_div = document.getElementById('die4-img');
 
 	if (!dice.choices[3] || !dice.value[3]) {
-		userChoice_div.classList.remove('red-glow');
-		userChoice_div.classList.add('green-glow');
+		userChoice_div.classList.remove('green-glow');
 		dice.choices[3] = true;
 		return true;
 	}
 	else {
-		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.add('red-glow');
+		userChoice_div.classList.add('green-glow');
 		dice.choices[3] = false;
 		return false;
 	}
@@ -550,14 +540,12 @@ function selectDie5() {
 	let userChoice_div = document.getElementById('die5-img');
 
 	if (!dice.choices[4] || !dice.value[4]) {
-		userChoice_div.classList.remove('red-glow');
-		userChoice_div.classList.add('green-glow');
+		userChoice_div.classList.remove('green-glow');
 		dice.choices[4] = true;
 		return true;
 	}
 	else {
-		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.add('red-glow');
+		userChoice_div.classList.add('green-glow');
 		dice.choices[4] = false;
 		return false;
 	}
@@ -567,14 +555,12 @@ function selectDie6() {
 	let userChoice_div = document.getElementById('die6-img');
 
 	if (!dice.choices[5] || !dice.value[5]) {
-		userChoice_div.classList.remove('red-glow');
-		userChoice_div.classList.add('green-glow');
+		userChoice_div.classList.remove('green-glow');
 		dice.choices[5] = true;
 		return true;
 	}
 	else {
-		userChoice_div.classList.remove('green-glow');
-		userChoice_div.classList.add('red-glow');
+		userChoice_div.classList.add('green-glow');
 		dice.choices[5] = false;
 		return false;
 	}
@@ -586,23 +572,16 @@ buttonText.innerHTML = 'Roll dice';
 dice.value = [null, null, null, null, null, null];
 dice.choices[0]=false;
 selectDie1();
-document.getElementById('die1-img').classList.remove('red-glow');
-document.getElementById('die1-img').classList.add('big');
 dice.choices[1]=false;
 selectDie2();
-document.getElementById('die2-img').classList.remove('red-glow');
 dice.choices[2]=false;
 selectDie3();
-document.getElementById('die3-img').classList.remove('red-glow');
 dice.choices[3]=false;
 selectDie4();
-document.getElementById('die4-img').classList.remove('red-glow');
 dice.choices[4]=false;
 selectDie5();
-document.getElementById('die5-img').classList.remove('red-glow');
 dice.choices[5]=false;
 selectDie6();
-document.getElementById('die6-img').classList.remove('red-glow');
 }
 
 function selectAllDice () {
